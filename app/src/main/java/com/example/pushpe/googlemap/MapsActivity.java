@@ -68,12 +68,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 buildGoogleApiClient();
-                mMap.setMyLocationEnabled(true);
+                //mMap.setMyLocationEnabled(true);
             }
         }
         else {
             buildGoogleApiClient();
-            mMap.setMyLocationEnabled(true);
+            //mMap.setMyLocationEnabled(true);
         }
     }
     public void onSearch(View view){
@@ -97,13 +97,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(!addressList.isEmpty()){
             Address address = addressList.get(0);
             LatLng latLng = new LatLng(address.getLatitude(),address.getLongitude());
-            marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+            marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Your searched location is here!"));
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-            //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
         }
     }
 
     public void changeType(View view){
+        LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
+
         if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL){
             mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         }
@@ -145,9 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 
-        //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
 
         //stop location updates
         if (mGoogleApiClient != null) {

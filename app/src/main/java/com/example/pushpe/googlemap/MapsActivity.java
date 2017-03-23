@@ -81,19 +81,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String location = location_tf.getText().toString();
         List<Address> addressList = null;
 
-        if (location != null || !location.equals("")){
-
-            if(marker != null){
-                marker.remove();
-            }
-            Geocoder geocoder = new Geocoder(this);
-            try {
-                addressList = geocoder.getFromLocationName(location, 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if(marker != null){
+            marker.remove();
+        }
+        Geocoder geocoder = new Geocoder(this);
+        try {
+            addressList = geocoder.getFromLocationName(location, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+        assert addressList != null;
         if(!addressList.isEmpty()){
             Address address = addressList.get(0);
             LatLng latLng = new LatLng(address.getLatitude(),address.getLongitude());
@@ -104,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void changeType(View view){
         LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
 
         if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL){
             mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
